@@ -1,0 +1,2 @@
+A-LOAM
+-G CodeBlocks - Unix Makefiles -DCMAKE_BUILD_TYPE=Debug -DCATKIN_DEVEL_PREFIX=/home/tony/aloam_ws/devel -DCMAKE_INSTALL_PREFIX=/home/tony/aloam_ws/install
