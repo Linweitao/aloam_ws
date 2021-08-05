@@ -1,6 +1,10 @@
-// Author:   Tong Qin               qintonguav@gmail.com
-// 	         Shaozu Cao 		    saozu.cao@connect.ust.hk
-
+/*
+ *
+ * 读取kitti odometry的数据集的数据，
+ * 具体包括点云、左右相机的图像、以及pose的groundtruth（训练集才有），
+ * 然后分成5个topic以10Hz（可修改）的频率发布出去，其中真正对算法有用的topic只有点云/velodyne_points，
+ * 其他四个topic都是在rviz中可视化用。
+*/
 #include <iostream>
 #include <fstream>
 #include <iterator>
@@ -106,7 +110,8 @@ int main(int argc, char** argv)
         }
 
         Eigen::Quaterniond q_w_i(gt_pose.topLeftCorner<3, 3>());
-        Eigen::Quaterniond q = q_transform * q_w_i;
+        // Eigen::Quaterniond q = q_transform * q_w_i;// 此处应该添加 * q_transform.inverse()，如下所示，其实更准确的应该使用KITTI提供的左相机到Lidar的标定参数进行变换
+        Eigen::Quaterniond q = q_transform * q_w_i.inverse();
         q.normalize();
         Eigen::Vector3d t = q_transform * gt_pose.topRightCorner<3, 1>();
 
